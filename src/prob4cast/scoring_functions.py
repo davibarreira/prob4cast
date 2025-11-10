@@ -11,7 +11,7 @@ def quantile_loss(
 
     The quantile loss is defined as:
     .. math::
-        L_\alpha(y, q) = \max\left\{ \alpha (y - q),\; (\alpha - 1)(y - q) \right\}
+        L_\alpha(y, q) = (q - y) \cdot (\mathbb{1}(y \leq q) - \alpha)
 
     where:
         - y is the observed value (`y`)
@@ -32,5 +32,5 @@ def quantile_loss(
     float
         Quantile loss value.
     """
-
-    return 0
+    indicator = 1 if y <= q_value else 0
+    return (q_value - y) * (indicator - q_level)
